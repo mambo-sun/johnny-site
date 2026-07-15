@@ -12,7 +12,7 @@ form.addEventListener('submit', async (e) => {
     submitButton.disabled = true;   // blocks further clicks immediately
 
     try {
-        const response = await fetch('https://johnny-site.onrender.com', {
+        const response = await fetch('https://johnny-site.onrender.com/api/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email })
