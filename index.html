@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnny! The Band</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+    <body>
+        <header>
+            <nav>
+                <div class="container">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="media.html">Photos/Videos</a></li>
+                        <li><a href="shows.html">Shows</a></li>
+                        <li><a href="game.html">Game</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+
+            <!-- HERO SECTION -->
+
+            <section class="hero">
+                <div class="container">
+                    <h1 class="visually-hidden">Johnny!</h1>
+                    <img src="images/logo.svg" alt="Johnny band logo" class="hero-logo" />
+                    <p class="tagline">The band</p>
+                    <a href="shows.html" class="btn">Upcoming Shows</a>
+                    <p class="album-teaser">Debut Album Coming Soon!</p>
+                    <img src="images/JohnnyJacketCover.jpg" alt="Johnny! Raw Power Pop album cover art" class="hero-photo" />
+                </div>
+            </section>
+
+            <section class="about">
+                <div class="container">
+                    <h2>About</h2>
+                    <p class="tagline">Heeeeeeeeere's Johnny!</p>
+                    <p class="sub-title">California born and bred.</p>
+
+                    <!-- Johnny -->
+
+                    <div class="member-row">
+                        <img src="images/band1.png" alt="Johnny TL, bass and vocals" class="member-photo" />
+                        <div class="member-bio">
+                            <h3>Johnny TL</h3>
+                            <p class="member-instrument">Bass, Vocals</p>
+                                <dl class="member-stats">
+                                <dt>Cereal</dt>
+                                <dd>Cap'n Crunch</dd>
+                                <dt>Sign</dt>
+                                <dd>Pisces</dd>
+                                <dt>Movie</dt>
+                                <dd>Murder on The Orient Express</dd>
+                                <dt>Mushroom Trips</dt>
+                                <dd>50+</dd>
+                                <dt>Drink</dt>
+                                <dd>Wharf Juice</dd>
+                                </dl>
+                        </div>
+                    </div>
+
+                    <!-- Evan -->
+                    <div class="member-row">
+                        <img src="images/band2.png" alt="Shreddin' Evan, Guitars and Vocals" class="member-photo" />
+                        <div class="member-bio">
+                            <h3>Shreddin' Evan</h3>
+                            <p class="member-instrument">Guitars, Vocals</p>
+                                <dl class="member-stats">
+                                <dt>Cereal</dt>
+                                <dd>Cap'n Crunch</dd>
+                                <dt>Sign</dt>
+                                <dd>Pisces</dd>
+                                <dt>Movie</dt>
+                                <dd>Murder on The Orient Express</dd>
+                                <dt>Mushroom Trips</dt>
+                                <dd>50+</dd>
+                                <dt>Drink</dt>
+                                <dd>Wharf Juice</dd>
+                                </dl>
+                        </div>
+                    </div>
+
+                    <!-- Peter -->
+                     <div class="member-row">
+                        <img src="images/band3.png" alt="Petey, drums" class="member-photo" />
+                        <div class="member-bio">
+                            <h3>Petey</h3>
+                            <p class="member-instrument">Drums</p>
+                                <dl class="member-stats">
+                                <dt>Cereal</dt>
+                                <dd>Cap'n Crunch</dd>
+                                <dt>Sign</dt>
+                                <dd>Pisces</dd>
+                                <dt>Movie</dt>
+                                <dd>Murder on The Orient Express</dd>
+                                <dt>Mushroom Trips</dt>
+                                <dd>50+</dd>
+                                <dt>Drink</dt>
+                                <dd>Wharf Juice</dd>
+                                </dl>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+        <section class="signup">
+            <div class="container">
+                <h2>Join the Johnny Fan Club!</h2>
+                <p>Get updates on shows and new releases.</p>
+                <form action="#" method="post" class="signup-form" id="signup-form">
+                    <label for="email">Email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required
+                    />
+                    <button type="submit" class="btn">Sign Me Up</button>
+                </form>
+                <p id="signup-message"></p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 Johnny. All rights reserved.</p>
+            </div>
+        </footer>
+
+        <script src="js/signup.js"></script>
+
+    </body>
+</html>

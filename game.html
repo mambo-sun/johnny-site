@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Johnny! Takes San Francisco</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .game-page {
+      padding: var(--spacing-lg) 0 var(--spacing-xl);
+      text-align: center;
+    }
+    .game-page h1 {
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--spacing-md);
+    }
+    #game-canvas {
+      display: block;
+      margin: 0 auto;
+      border: 2px solid var(--color-accent);
+      max-width: 100%;
+      height: auto;   /* keep 8:5 when max-width shrinks the inline 800x500 */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="container">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="media.html">Photos/Videos</a></li>
+          <li><a href="shows.html">Shows</a></li>
+          <li><a href="game.html">A Game</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="game-page">
+      <div class="container">
+        <h1>Johnny! Takes San Francisco</h1>
+        <canvas id="game-canvas"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Johnny. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/kaplay@3001/dist/kaplay.js"></script>
+  <script src="js/audio.js?v=1"></script>
+  <script src="js/game.js?v=7"></script>
+</body>
+</html>
