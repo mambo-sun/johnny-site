@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html land="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Johnny — Shows</title>
+    <link rel="stylesheet" href="css/styles.css" />         <!-- existing site styles -->
+    <link rel="stylesheet" href="css/calendar.css" />       <!-- new: calendar-only styles -->
+</head>
+<body>
+    <!-- Same nav as the rest of the site, with Shows marked active -->
+    <nav class="site-nav">
+        <a href="index.html" class="site-logo">Johnny!</a>
+        <a href="index.html">Home</a>
+        <a href="media.html">Home</a>
+        <a href="shows.html" class="active">Shows</a>
+    </nav>
+
+    <main class="calendar-page">
+        <!-- Month + year, e.g. "FEBRUARY 2026". JS writes into this. -->
+        <h1 id="calendar-title" class="calendar-title">Loading...</h1>
+
+        <!-- Fixed weekday header row: Sun-Sat -->
+        <div class="weekday-row">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+            <span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+
+        <!-- The grid of day squares. JS injects the cells INTO this container. -->
+        <div id="calendar-grid" class="calendar-grid"></div>
+
+        <!-- Arrows BELOW the calendar -->
+        <div class="calendar-controls">
+            <button id="prev-month" class="cal-arrow" aria-label="Previous month">&larr;</button>
+            <button id="next-month" class="cal-arrow" aria-label="Next month">&rarr;</button>
+        </div>
+    </main>
+
+    <!-- Modal: sits in the HTML but stays hidden until a show cell is clicked -->
+    <div id="show-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div id="modal-close" class="modal-close" aria-label="Close">&times;</div>
+            <div id="modal-content"></div>      <!-- JS fills this with the show details -->
+        </div> 
+    </div>
+
+    <script src=""js/calendar.js></script>
+</body>
+</html>
