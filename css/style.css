@@ -304,3 +304,52 @@ footer {
     white-space: nowrap;
     border: 0;
 }
+
+/* ===================================
+   Mobile navigation (hamburger)
+   =================================== */
+
+/* Hamburger button — hidden on desktop by default.
+   Existing "nav ul" flex row still shows links normally on wide screens. */
+.nav-toggle {
+    display: none;                  /* desktop: button is invisible */
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font-family: var(--font-main);
+    font-size: 1.8rem;              /* large tap target */
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* Anything 768px wide or narrower = "mobile" layout */
+@media (max-width: 768px) {
+
+    /* Stack the button on top, links below it, both centered */
+    nav .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* hamburger now visible */
+    .nav-toggle {
+        display: block;
+    }
+
+    /* Hide link list until button is tapped.
+       .nav-links (a class) beats "nav ul" (elements) */
+    .nav-links {
+        display: none;
+        flex-direction: column;     /* when shown, stack vertically instead of in a row */
+        align-items: center;
+        gap: var(--spacing-md);
+        width: 100%;
+        margin-top: var(--spacing-md);
+    }
+
+    /* JS will add this class on tap to reveal the menu */
+    .nav-links.open {
+        display: flex;
+    }
+}

@@ -10,7 +10,20 @@
         <header>
             <nav>
                 <div class="container">
-                    <ul>
+                    <!-- Toggle button: a sibling of the <ul>, inside the same container.
+                        CSS will hide it on desktop and reveal it on mobile.
+                        aria-* attributes tell screen readers what it does and its state. -->
+                    <button
+                        class="nav-toggle"
+                        aria-label="Toggle navigation menu"
+                        aria-expanded="false"
+                        aria-controls="primary-nav">
+                        &#9776; <!-- ☰ hamburger icon (Unicode U+2630), no image needed -->
+                    </button>
+
+                    <!-- id lets the button's aria-controls point at this list.
+                        The class gives CSS/JS a single hook to collapse the whole group. -->
+                    <ul class="nav-links" id="primary-nav">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="media.html">Photos/Videos</a></li>
                         <li><a href="shows.html">Shows</a></li>
