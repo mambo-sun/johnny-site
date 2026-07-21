@@ -1,0 +1,107 @@
+/* - - - - Page layout - - - - */
+.calendar-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: "Courier New", Courier, monospace;
+    color: #f4ecd8;
+}
+
+.calendar-title {
+    text-align: center;
+    font-size: 2.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #e0b64a;
+    margin-bottom: 1rem;
+}
+
+/* Weekday header + day grid BOTH use 7 equal columns so they line up */
+.weekday-row,
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);      /* 7 columns, each an equal fraction */
+}
+
+.weekday-row {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 2px solid #e0b64a;
+    padding-bottom: 0.5rem;
+}
+
+.calendar-grid {
+    gap: 2px;
+    background: #e0b64a;            /* thin gutters between squares... */
+    border: 2px solid #e0b64a;      /* gold shows through gaps = printed grid lines */
+}
+
+/* Each day square */
+.day-cell {
+    background: #141414;              /* near-black square face */
+    min-height: 110px;                  /* keeps empty squares from collapsing flat */
+    padding: 0.4rem;
+    position: relative;                 /* lets us pin the date number to a corner */
+    overflow: hidden;                   /* filler images won't spill outside the square */
+}
+
+.day-number { font-weight: bold; opacity: 0.8; }
+
+/* Leading/trailing blanks (before the first / after the last day of the month) */
+.day-cell.empty-pad { background: #0d0d0d; }    /* darker = reads as "not this month" */
+
+/* ---- Arrow controls ---- */
+.calendar-controls {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.cal-arrow {
+    font-family: "Courier New", monospace;
+    font-size: 1.5rem;
+    background: transparent;
+    color:#e0b64a;
+    border: 2px solid #e0b64a;
+    padding: 0.3rem 1.2rem;
+    cursor: pointer;
+}
+
+.cal-arrow:hover { background:#e0b64a; color:#141414 }
+
+/* - - - - Modal - - - - */
+.modal-overlay {
+    position: fixed;
+    inset: 0;                                       /* top/right/bottom/left: 0 → covers screen */
+    background: rgba(0, 0, 0, 0.75);              /* dim the page behind */
+    display: flex;
+    align-items: center;                            /* vertical centering */
+    justify-content: center;                        /* horizontal centering */
+}
+
+.modal-overlay.hidden { display: none; }            /* JS adds/removes .hidden to show/hide */
+
+.modal-box {
+    background: #141414;
+    border: 3px solid #e0b64a;
+    max-width: 500px;
+    width: 90%;
+    padding: 2rem;
+    position: relative;                             /* anchors the close button */
+    color: #f4ecd8;
+}
+
+.model-close {
+    position:absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: #e0b64a;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
