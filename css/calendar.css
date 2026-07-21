@@ -46,10 +46,45 @@
     overflow: hidden;                   /* filler images won't spill outside the square */
 }
 
+/* A day that has a show — warmer, more present */
+.day-cell.has-show { background: #241d12; }
+
+.show-info {
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  line-height: 1.25;
+}
+
+/* Venue as a solid gold "stub" — high contrast, pops off the dark square */
+.show-headliner {
+  display: inline-block;
+  background: #e0b64a;         /* gold fill */
+  color: #141414;              /* near-black text on gold = strong contrast */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.1rem 0.3rem;       /* the padding is what makes it read as a "stub" */
+}
+
+.show-city {
+  color: #f4ecd8;              /* bright cream, up from 0.85 opacity */
+  margin-top: 0.2rem;
+}
+
 .day-number { font-weight: bold; opacity: 0.8; }
 
-/* Leading/trailing blanks (before the first / after the last day of the month) */
-.day-cell.empty-pad { background: #0d0d0d; }    /* darker = reads as "not this month" */
+/* Spillover days from prev/next month */
+.day-cell.inactive {
+  background: #121212;      /* solid, barely above the page black — no gold bleed */
+}
+.day-cell.inactive .day-number {
+  color: #3a3a3a;          /* dim grey number = "not this month" */
+  opacity: 1;
+}
+/* Fade any filler that lands on a spillover cell, without fading the whole cell */
+.day-cell.inactive .filler-img {
+  opacity: 0.2;
+}
 
 /* ---- Arrow controls ---- */
 .calendar-controls {
@@ -61,11 +96,13 @@
 
 .cal-arrow {
     font-family: "Courier New", monospace;
-    font-size: 1.5rem;
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 1;
     background: transparent;
     color:#e0b64a;
     border: 2px solid #e0b64a;
-    padding: 0.3rem 1.2rem;
+    padding: 0.2rem 1.2rem;
     cursor: pointer;
 }
 
@@ -104,4 +141,46 @@
     cursor: pointer;
 }
 
+/* Empty day decorated with a filler image */
+.day-cell.has-filler { position: relative; }
+
+.filler-img {
+    display: block;
+    width: 100%;
+    height: 70px;              /* room under the date number */
+    object-fit: contain;       /* whole image shows, nothing cropped */
+    margin-top: 0.35rem;
+    opacity: 0.9;
+}
+
+.filler-caption {
+    font-size: 0.65rem;
+    text-align: center;
+    color: #8a7a6a;            /* muted, so it reads caption not a headline */
+    margin-top: 0.2rem;
+}
+
+/* Show squares invite a click */
+.day-cell.clickable { cursor: pointer; }
+.day-cell.clickable:hover { background: #241d12; }   /* slightly brighter warm tint */
+
+/* Modal content */
+.modal-date {
+    color: #e0b64a;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.modal-venue { font-size: 1.1rem; font-weight: bold; }
+.modal-city  { color: #8a7a6a; margin-bottom: 1rem; }
+
+.modal-line { margin-bottom: 0.4rem; }
+.modal-line span {
+    color: #e0b64a;            /* gold label, e.g. "Time:" */
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    margin-right: 0.4rem;
+}
 

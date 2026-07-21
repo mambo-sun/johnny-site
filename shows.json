@@ -1,0 +1,32 @@
+[
+  {
+    "date": "2026-07-18",
+    "city": "San Francisco, CA",
+    "venue": "Bottom of the Hill",
+    "lineup": ["Johnny!", "The Basement Dwellers"],
+    "time": "8:00 PM",
+    "price": "$15",
+    "ageLimit": "All ages",
+    "notes": "Doors at 7:30"
+  },
+  {
+    "date": "2026-07-25",
+    "city": "Oakland, CA",
+    "venue": "Eli's Mile High Club",
+    "lineup": ["Johnny!", "Wharf Rats", "Sea Lion Attack"],
+    "time": "9:00 PM",
+    "price": "$12",
+    "ageLimit": "21+",
+    "notes": ""
+  },
+  {
+    "date": "2026-08-08",
+    "city": "Sacramento, CA",
+    "venue": "Cafe Colonial",
+    "lineup": ["Johnny!"],
+    "time": "7:30 PM",
+    "price": "$10",
+    "ageLimit": "All ages",
+    "notes": ""
+  }
+]
