@@ -4,17 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Johnny — Shows</title>
-    <link rel="stylesheet" href="css/styles.css" />         <!-- existing site styles -->
+    <link rel="stylesheet" href="css/style.css" />         <!-- existing site styles -->
     <link rel="stylesheet" href="css/calendar.css" />       <!-- new: calendar-only styles -->
 </head>
 <body>
     <!-- Same nav as the rest of the site, with Shows marked active -->
-    <nav class="site-nav">
-        <a href="index.html" class="site-logo">Johnny!</a>
-        <a href="index.html">Home</a>
-        <a href="media.html">Home</a>
-        <a href="shows.html" class="active">Shows</a>
-    </nav>
+    <header>
+            <nav>
+                <div class="container">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="media.html">Photos/Videos</a></li>
+                        <li><a href="shows.html">Shows</a></li>
+                        <li><a href="game.html">Game</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
 
     <main class="calendar-page">
         <!-- Month + year, e.g. "FEBRUARY 2026". JS writes into this. -->
@@ -44,6 +50,6 @@
         </div> 
     </div>
 
-    <script src=""js/calendar.js></script>
+    <script src="js/calendar.js"></script>
 </body>
 </html>
