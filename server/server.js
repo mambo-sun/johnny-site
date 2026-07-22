@@ -1,9 +1,21 @@
-require('dotenv').config();     // loads .dnv into process.env
+require('dotenv').config({ quiet: true});     // loads .dnv into process.env
                                 // must run before anything reads process.env
+
+const { BrevoClient } = require('@getbrevo/brevo');
+
+// One client instance, reused for every email send — created once at startup,
+// not inside the route, so we're not rebuilding it on every signup.
+const brevo = new BrevoClient({
+    apiKey: process.env.BREVO_API_KEY
+});
 
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');     // the MongoDB driver
+
+process.on('unhandledRejection', (err) => {
+    console.error('Unhandled promise rejection:', err);
+});
 
 const app = express();
 const PORT = 3000;
@@ -29,6 +41,51 @@ async function connectToDatabase() {
                                                     // collection('emails'): Roughly MongoDB's version of a table,
                                                     // a named group of documents (records)
     console.log('Connected to MongoDB');
+}
+
+// Sends the welcome email. Errors are caught and logged here, not thrown,
+// so a Brevo outage never breaks the signup flow that calls this function.
+async function sendWelcomeEmail(toEmail) {
+
+    console.log('sendWelcomeEmail called for:', toEmail);
+
+    try {
+        await brevo.transactionalEmails.sendTransacEmail({
+            sender: {
+                name: process.env.BREVO_SENDER_NAME,
+                email: process.env.BREVO_SENDER_EMAIL
+            },
+            to: [{ email: toEmail }],
+            subject: "Welcome to the Johnny! mailing list",
+            htmlContent: `
+                <div style="font-family: 'Courier New', monospace; background:#1a1a1a; color:#f0e6d3; padding:32px;">
+                    <h1 style="color:#c9a84c;">You're in.</h1>
+                    <p>Thanks for signing up for the Johnny! newsletter.</p>
+                    <p>We'll let you know about shows, releases, and anything else worth shouting about.</p>
+                </div>
+            `
+        });
+        console.log('Welcome email sent to:', toEmail);
+    } catch (err) {
+        // Log and move on — don't let an email failure look like a signup failure.
+        console.error('Failed to send welcome email:', err.message);
+    }
+}
+
+// Adds the subscriber as a contact in Brevo, so they're reachable
+// from the newsletter composer. Same error-handling pattern as
+// sendWelcomeEmail — logged, never thrown, never blocks the signup.
+async function addContactToList(email) {
+    try {
+        await brevo.contacts.createContact({
+            email: email,
+            listIds: [Number(process.env.BREVO_LIST_ID)],
+            updateEnabled: true
+        });
+        console.log('Contact added to Brevo list:', email);
+    } catch (err) {
+        console.error('Failed to add contact to Brevo list:', err.message);
+    }
 }
 
 connectToDatabase();
@@ -61,6 +118,10 @@ app.post('/api/signup', async (req, res) => {
     });
 
     console.log('New signup saved:', email);
+
+    sendWelcomeEmail(email);        // intentionally not awaited
+    addContactToList(email);
+
     res.status(200).json({ message: 'Signup successful' });
 });
 
