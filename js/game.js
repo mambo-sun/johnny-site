@@ -31,8 +31,12 @@ const K = kaplay({
   buttons: BUTTONS,
 });
 
-initAudio(K);           // registers every SFX, installs the autoplay unlock + mute key
-initTouchControls(K);   // wires the on-screen touch bar; a no-op on desktop
+initAudio(K);   // registers every SFX, installs the autoplay unlock + mute key
+
+// TOUCH is the touch bar's own verdict, not a second guess at it: every hint
+// the game prints has to describe the controls the player is actually looking
+// at, and "PRESS ENTER" on a phone is a dead end.
+const TOUCH = initTouchControls(K);
 
 const GAME_W=800, GAME_H=500;
 const C_TEXT=[240,230,211], C_ACCENT=[201,168,76], C_MUTED=[138,122,106], C_SURFACE=[42,42,42];
@@ -1198,7 +1202,9 @@ scene("select", () => {
     return { border, bg, strip, cx, cy:CARD_Y };
   });
 
-  add([text("CLICK A CARD   ·   ARROWS + ENTER   ·   M MUTE",{size:14,font:FONT,letterSpacing:1}), pos(GAME_W/2,GAME_H-24), anchor("center"), color(...C_DIM)]);
+  add([text(TOUCH ? "TAP A CARD TO START"
+                  : "CLICK A CARD   ·   ARROWS + ENTER   ·   M MUTE",
+            {size:14,font:FONT,letterSpacing:1}), pos(GAME_W/2,GAME_H-24), anchor("center"), color(...C_DIM)]);
 
   const hovered = (mp,c) => mp.x>=c.cx && mp.x<=c.cx+CARD_W && mp.y>=c.cy && mp.y<=c.cy+CARD_H;
 
@@ -1310,7 +1316,10 @@ scene("game", ({char:chosenChar, levelIdx=0, score:prevScore=0}={}) => {
   const destLabel =add([text("DEST: 0%",{size:11,font:FONT}), pos(GAME_W/2,50), anchor("center"), color(...C_MUTED), z(Z_HUD), fixed()]);
   add([text(`LVL ${levelIdx+1}  ${level.name}`,{size:12,font:FONT}), pos(GAME_W-10,8), anchor("right"), color(...C_MUTED), z(Z_HUD), fixed()]);
   const eHUD=add([text("ENEMIES: 0",{size:12,font:FONT}), pos(GAME_W-10,28), anchor("right"), color(...C_MUTED), z(Z_HUD), fixed()]);
-  add([text("ARROWS/WASD MOVE   UP/W JUMP   Z PUNCH   M MUTE   ESC QUIT",{size:11,font:FONT}), pos(GAME_W/2,groundY+26), anchor("center"), color(...C_MUTED), z(Z_HUD), fixed()]);
+  // On touch the buttons are labelled and the keys named here don't exist, so
+  // the line is dropped rather than reworded — it would only crowd the street.
+  if (!TOUCH)
+    add([text("ARROWS/WASD MOVE   UP/W JUMP   Z PUNCH   M MUTE   ESC QUIT",{size:11,font:FONT}), pos(GAME_W/2,groundY+26), anchor("center"), color(...C_MUTED), z(Z_HUD), fixed()]);
 
   const iO=[
     add([rect(GAME_W,GAME_H),pos(0,0),color(...level.skyColor),z(Z_OVERLAY),fixed()]),
@@ -1785,7 +1794,7 @@ scene("levelclear",({char,levelIdx=0,score=0}={})=>{
   add([rect(300,1),pos(GAME_W/2,GAME_H/2+6),anchor("center"),color(...C_MUTED),fixed()]);
   add([text("NEXT: "+nx.name,{size:20,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+30),anchor("center"),color(...C_ACCENT),fixed()]);
   add([text(nx.subtitle,{size:13,font:FONT}),pos(GAME_W/2,GAME_H/2+60),anchor("center"),color(...C_MUTED),fixed()]);
-  add([text("PRESS ENTER TO CONTINUE",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+96),anchor("center"),color(...C_TEXT),fixed()]);
+  add([text(TOUCH ? "TAP TO CONTINUE" : "PRESS ENTER TO CONTINUE",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+96),anchor("center"),color(...C_TEXT),fixed()]);
   tapToContinue(()=>go("game",{char,levelIdx:levelIdx+1,score}));
   onButtonPress("quit",()=>go("select"));
 });
@@ -1799,7 +1808,7 @@ scene("wingame",({score=0}={})=>{
   add([rect(300,1),pos(GAME_W/2,GAME_H/2-4),anchor("center"),color(...C_MUTED),fixed()]);
   add([text(score.toString().padStart(6,"0"),{size:48,font:FONT}),pos(GAME_W/2,GAME_H/2+28),anchor("center"),color(...C_ACCENT),fixed()]);
   add([text("FINAL SCORE",{size:12,font:FONT,letterSpacing:2}),pos(GAME_W/2,GAME_H/2+72),anchor("center"),color(...C_MUTED),fixed()]);
-  add([text("PRESS ENTER TO PLAY AGAIN",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+100),anchor("center"),color(...C_MUTED),fixed()]);
+  add([text(TOUCH ? "TAP TO PLAY AGAIN" : "PRESS ENTER TO PLAY AGAIN",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+100),anchor("center"),color(...C_MUTED),fixed()]);
   tapToContinue(()=>go("select"));
 });
 
@@ -1810,7 +1819,7 @@ scene("gameover",({score=0,levelIdx=0}={})=>{
   add([text("GAME OVER",{size:44,font:FONT,letterSpacing:3}),pos(GAME_W/2,GAME_H/2-58),anchor("center"),color(...C_ACCENT),fixed()]);
   add([text("FELL IN "+lv.name,{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2-10),anchor("center"),color(...C_MUTED),fixed()]);
   add([text("SCORE: "+score.toString().padStart(6,"0"),{size:18,font:FONT}),pos(GAME_W/2,GAME_H/2+20),anchor("center"),color(...C_TEXT),fixed()]);
-  add([text("PRESS ENTER TO TRY AGAIN",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+54),anchor("center"),color(...C_MUTED),fixed()]);
+  add([text(TOUCH ? "TAP TO TRY AGAIN" : "PRESS ENTER TO TRY AGAIN",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+54),anchor("center"),color(...C_MUTED),fixed()]);
   tapToContinue(()=>go("select"));
 });
 

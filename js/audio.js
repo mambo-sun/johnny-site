@@ -26,6 +26,11 @@ let frameStamp = -1, frameVoices = 0;
 const framePlayed = new Set();
 const lastPlayed = new Map();
 
+// Diagnostics for ?audio=debug — a phone can't be inspected from here, so the
+// page has to be able to say what its own audio stack is doing.
+let audioCtx = null, sfxAsked = 0, sfxPlayed = 0;
+const loadErrors = [];
+
 // ============================================================
 // SYNTH PRIMITIVES
 // ============================================================
@@ -274,6 +279,7 @@ const SFX = {
 // The ONLY place SFX playback happens. Calls the global play() by name rather
 // than capturing a reference, so tests can spy on window.play.
 function sfx(name, opts) {
+  sfxAsked++;
   if (audioMuted) return;
   if (!(name in SFX)) { console.error("unknown sfx:", name); return; }   // never throws
 
@@ -300,6 +306,31 @@ function sfx(name, opts) {
     detune: o.detune || 0,
     pan: (o.x === undefined || o.x === null) ? 0 : clamp((o.x / w) * 2 - 1, -1, 1),
   });
+  sfxPlayed++;
+}
+
+// ============================================================
+// ?audio=debug — an on-page readout, because a phone that makes no sound
+// can't tell you why from here. Reports whether the browser opened the
+// context, whether the WAVs decoded, and whether play() is being reached.
+// ============================================================
+function startAudioDebug() {
+  const el = document.createElement("pre");
+  el.id = "audio-debug";
+  el.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:9999;margin:0;" +
+    "padding:6px 8px;font:11px/1.4 monospace;color:#0f0;background:rgba(0,0,0,.85);" +
+    "white-space:pre-wrap;pointer-events:none";
+  document.body.appendChild(el);
+  setInterval(() => {
+    el.textContent = [
+      "ctx.state   " + (audioCtx ? audioCtx.state : "NO CONTEXT"),
+      "sampleRate  " + (audioCtx ? audioCtx.sampleRate : "-"),
+      "muted       " + audioMuted,
+      "volume      " + (typeof root.getVolume === "function" ? root.getVolume() : "?"),
+      "sfx asked   " + sfxAsked + "   played " + sfxPlayed,
+      "load errors " + (loadErrors.length ? loadErrors.join(" / ") : "none"),
+    ].join("\n");
+  }, 400);
 }
 
 // ±cents of pitch variation at PLAY time, so repeated hits don't machine-gun.
@@ -318,7 +349,14 @@ const toggleMute = () => setMuted(!audioMuted);
 // INIT — called from game.js immediately after kaplay() boots
 // ============================================================
 function initAudio(K) {
-  for (const name of Object.keys(SFX)) root.loadSound(name, SFX[name]());
+  for (const name of Object.keys(SFX)) {
+    const asset = root.loadSound(name, SFX[name]());
+    // A decodeAudioData failure is otherwise silent — literally. Record it so
+    // ?audio=debug can say "this browser refused the WAV" instead of leaving a
+    // mute game with no explanation.
+    if (asset && typeof asset.onError === "function")
+      asset.onError((err) => { loadErrors.push(name + ": " + err); });
+  }
 
   let saved = false;
   try { saved = root.localStorage.getItem(MUTE_KEY) === "1"; } catch (e) { saved = false; }
@@ -327,26 +365,58 @@ function initAudio(K) {
 
   // kaplay NEVER resumes the AudioContext on input — only on tab-visibility,
   // music playback, or debug-unpause. Browsers start it suspended, so without
-  // this every sound is silent forever. Listen on window (events bubble even
-  // while the canvas holds focus); pointerdown fires before click, so the
-  // resume is requested before a card-click triggers go("game").
+  // this every sound is silent forever.
+  //
+  // iOS needs more than resume(), which is why this is not three lines:
+  //   · Safari only truly opens the output once a buffer has been STARTED from
+  //     inside a real gesture. resume() alone can report "running" and still
+  //     play nothing, so every gesture also fires a one-sample silent buffer.
+  //   · Safari has a WebKit-only "interrupted" state and can drop a running
+  //     context back to it (a call, another app, a backgrounded tab). Tearing
+  //     the listeners down after the first success — which is what this used to
+  //     do — meant silence for the rest of the session with no way back, so
+  //     they now stay armed and a statechange re-arms the buffer kick.
+  //   · Capture phase, so nothing downstream can stopPropagation() the gesture
+  //     away before the unlock sees it.
   const ctx = K && K.audioCtx;
+  audioCtx = ctx || null;
   if (ctx) {
-    const evs = ["pointerdown", "keydown", "touchstart"];
-    const teardown = () => evs.forEach((e) => root.removeEventListener(e, unlock));
-    let resuming = false;
+    let opened = false, resuming = false;
+
+    const kick = () => {
+      // Must run synchronously inside the gesture — a promise callback has
+      // already lost the user activation Safari is looking for.
+      try {
+        const src = ctx.createBufferSource();
+        src.buffer = ctx.createBuffer(1, 1, ctx.sampleRate || AUDIO_SR);
+        src.connect(ctx.destination);
+        src.start(0);
+        opened = true;
+      } catch (e) { /* context torn down mid-gesture */ }
+    };
+
     const unlock = (e) => {
       if (e && e.repeat) return;                 // a held key repeats; one attempt is enough
-      if (ctx.state === "running") { teardown(); return; }
-      if (resuming) return;                      // don't stack resume() calls while one is in flight
+      if (!opened) kick();
+      if (ctx.state === "running" || resuming) return;
       resuming = true;
-      ctx.resume()
-        .then(() => { if (ctx.state === "running") teardown(); })
-        .catch(() => {})
-        .then(() => { resuming = false; });
+      ctx.resume().catch(() => {}).then(() => { resuming = false; });
     };
-    evs.forEach((e) => root.addEventListener(e, unlock));
+
+    // Every gesture flavour, because which one arrives first differs by
+    // platform and any of them is a valid activation.
+    ["touchstart", "touchend", "pointerdown", "pointerup", "mousedown", "click", "keydown"]
+      .forEach((ev) => root.addEventListener(ev, unlock, { capture: true, passive: true }));
+
+    if (typeof ctx.addEventListener === "function")
+      ctx.addEventListener("statechange", () => { if (ctx.state !== "running") opened = false; });
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && ctx.state !== "running") ctx.resume().catch(() => {});
+    });
   }
+
+  if (String(root.location && root.location.search).indexOf("audio=debug") !== -1) startAudioDebug();
 
   // Mute must work in every scene, including the transition scenes. kaplay's
   // onKeyPress is scene-scoped and go() clears it, so use a raw DOM listener.

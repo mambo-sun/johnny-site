@@ -1,4 +1,4 @@
-require('dotenv').config({ quiet: true});     // loads .dnv into process.env
+require('dotenv').config({ quiet: true});     // loads .env into process.env
                                 // must run before anything reads process.env
 
 const { BrevoClient } = require('@getbrevo/brevo');
@@ -67,7 +67,7 @@ async function sendWelcomeEmail(toEmail) {
         });
         console.log('Welcome email sent to:', toEmail);
     } catch (err) {
-        // Log and move on — don't let an email failure look like a signup failure.
+        // Log and move on — don't let email failure look like signup failure
         console.error('Failed to send welcome email:', err.message);
     }
 }

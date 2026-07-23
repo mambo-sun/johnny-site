@@ -16,16 +16,18 @@
 (function (root) {
 "use strict";
 
+// Returns true when the touch bar is live, so game.js can word its on-screen
+// hints to match the controls the player actually has.
 function initTouchControls(K) {
   const bar = document.getElementById("touch-controls");
-  if (!bar || typeof K.pressButton !== "function") return;
+  if (!bar || typeof K.pressButton !== "function") return false;
 
   // Desktop is left completely alone: the bar stays display:none and not one
   // listener is attached. `pointer: coarse` is the real test — a laptop with a
   // touchscreen still reports a fine pointer and wants the keyboard.
   const coarse = (root.matchMedia && root.matchMedia("(pointer: coarse)").matches)
     || (typeof K.isTouchscreen === "function" && K.isTouchscreen());
-  if (!coarse) return;
+  if (!coarse) return false;
   bar.hidden = false;
 
   const held = new Map();   // pointerId -> the [data-btn] element it holds
@@ -128,6 +130,7 @@ function initTouchControls(K) {
   bar.addEventListener("contextmenu", (e) => e.preventDefault());
 
   syncMute();   // audio.js restores the muted flag from localStorage on boot
+  return true;
 }
 
 root.initTouchControls = initTouchControls;

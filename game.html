@@ -49,29 +49,45 @@
     .touch-controls { display: none; }
 
     @media (pointer: coarse) {
+      /* The 2rem desktop gutter costs a phone 64px of canvas. Give it back. */
+      .game-page .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+
+      /* Two rows: movement and actions on the first, the utility chips centred
+         under them on the second. The groups are grid columns rather than
+         content-sized boxes, and the buttons inside them are allowed to shrink,
+         so a narrow phone squeezes the row instead of pushing HIT off-screen. */
       .touch-controls {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--spacing-sm);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "move act"
+          "util util";
+        row-gap: 10px;
+        column-gap: var(--spacing-md);   /* keeps the two thumb clusters apart */
         margin-top: var(--spacing-md);
+        width: 100%;
         /* On the container too, not just the buttons: a drag starting in the
            gap between two buttons would otherwise scroll the page. */
         touch-action: none;
         -webkit-user-select: none;
         user-select: none;
       }
-      .touch-controls > div { display: flex; flex: 0 0 auto; gap: 10px; }
+      .touch-controls > div { display: flex; gap: 10px; min-width: 0; }
+      .tc-move { grid-area: move; justify-content: flex-start; }
+      .tc-act  { grid-area: act;  justify-content: flex-end; }
+      .tc-util { grid-area: util; justify-content: center; }
 
       .touch-controls button {
-        flex: 0 0 auto;
+        flex: 1 1 auto;
+        max-width: 96px;
         font-family: var(--font-main);
         font-size: 1.5rem;
         line-height: 1;
         color: var(--color-text);
         background: var(--color-surface);
         border: 2px solid var(--color-accent);
-        min-width: 64px;
+        min-width: 0;
+        width: 64px;
         height: 64px;
         display: flex;
         align-items: center;
@@ -112,7 +128,8 @@
       .touch-controls .tc-word.is-on { color: var(--color-bg); }
 
       .touch-controls .tc-util button {
-        min-width: 44px;
+        flex: 0 0 auto;
+        width: 44px;
         height: 44px;
         font-size: 1rem;
         border-color: var(--color-muted);
@@ -120,30 +137,52 @@
       }
     }
 
-    /* A phone in landscape has ~390px of height to spend. Keeping the site
-       chrome would leave the field smaller than the buttons sitting on it, so
-       landscape goes full-bleed — the game takes the whole viewport, the way a
-       mobile game does, and the bar floats over the street. Rotate back to
-       portrait for the nav. */
+    /* Landscape goes full-bleed and puts the controls in the SIDE MARGINS rather
+       than on the field. A phone is ~2.2:1 and the game is 8:5, so holding the
+       canvas to the viewport height always leaves dead space at both edges —
+       which is exactly where thumbs already are. Nothing covers the street, and
+       the canvas stays as large as the height allows. Rotate to portrait for the
+       site nav. FLANK is the width reserved per side; the canvas is sized from
+       whatever height is left after it. */
     @media (orientation: landscape) and (pointer: coarse) {
+      /* Flank must clear the WIDEST cluster (JUMP+HIT ≈ 138px) plus its edge
+         inset, or a height-limited canvas on a short phone grows wide enough to
+         slide under the buttons. 160px leaves a ~12px gap at the tightest size. */
+      .game-page { --flank: 160px; padding: 0; }
       header, footer, .game-page h1 { display: none; }
-      .game-page { padding: 0; }
       .game-page .container { padding: 0; max-width: none; }
-      .game-stage { width: min(100%, calc(100vh * 1.6)); }
-      .game-stage { width: min(100%, calc(100svh * 1.6)); }
+
+      .game-stage {
+        width: 100%;
+        height: 100vh;
+        height: 100svh;
+        display: grid;
+        place-items: center;
+      }
+      .game-frame {
+        height: min(100vh, calc((100vw - var(--flank) * 2) / 1.6));
+        height: min(100svh, calc((100vw - var(--flank) * 2) / 1.6));
+        width: auto;
+      }
       #game-canvas { border-width: 0; }
 
+      /* The bar becomes a full-stage layer that only its buttons can be touched
+         through, so the groups can sit in the margins without a box in the
+         middle swallowing taps meant for the game. */
       .touch-controls {
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: max(10px, env(safe-area-inset-bottom));
+        inset: 0;
+        display: block;
         margin-top: 0;
-        padding: 0 max(10px, env(safe-area-inset-left)) 0 max(10px, env(safe-area-inset-right));
-        opacity: 0.62;
+        pointer-events: none;
       }
-      .touch-controls button.is-on { opacity: 1; }
-      .touch-controls .tc-util { opacity: 0.8; }
+      .touch-controls > div {
+        position: absolute;
+        pointer-events: auto;
+      }
+      .tc-move { left: max(10px, env(safe-area-inset-left));  bottom: 12%; }
+      .tc-act  { right: max(10px, env(safe-area-inset-right)); bottom: 12%; }
+      .tc-util { left: max(10px, env(safe-area-inset-left));  top: max(10px, env(safe-area-inset-top)); }
     }
   </style>
 </head>
@@ -208,9 +247,9 @@
   </footer>
 
   <script src="https://unpkg.com/kaplay@3001/dist/kaplay.js"></script>
-  <script src="js/audio.js?v=1"></script>
-  <script src="js/touch-controls.js?v=1"></script>
-  <script src="js/game.js?v=9"></script>
+  <script src="js/audio.js?v=2"></script>
+  <script src="js/touch-controls.js?v=2"></script>
+  <script src="js/game.js?v=10"></script>
   <script src="js/nav.js"></script>
 </body>
 </html>
