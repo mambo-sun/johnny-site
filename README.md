@@ -107,6 +107,7 @@ A destruction game built with Kaplay, played across three San Francisco neighbou
 
 ## Project structure
 
+```
 johnny-site/
 ├── css/
 │   ├── style.css          design tokens, layout, nav, footer
@@ -130,6 +131,7 @@ johnny-site/
 ├── game.html
 ├── shows.json             tour dates
 └── filler.json            calendar filler artwork manifest
+```
 
 ---
 
