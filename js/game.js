@@ -1,15 +1,38 @@
 // JOHNNY! TAKES SAN FRANCISCO
 
+// Every input in the game goes through these named buttons, never through a raw
+// key. kaplay presses the button itself on the matching keydown, and the touch
+// bar calls pressButton()/releaseButton() for the same names, so the game code
+// never has to know which device the player is using.
+const BUTTONS = {
+  left:  { keyboard: ["left", "a"] },
+  right: { keyboard: ["right", "d"] },
+  jump:  { keyboard: ["up", "w"] },
+  punch: { keyboard: ["z"] },
+  quit:  { keyboard: ["escape"] },
+  start: { keyboard: ["enter", "space"] },
+};
+
 // Capture the return value: K.audioCtx is the ONLY handle to the AudioContext,
 // and kaplay never resumes it on user input, so audio.js has to do it.
+//
+// letterbox keeps the 800x500 play field at its true ratio inside whatever size
+// the .game-frame wrapper ends up: kaplay stretches the canvas to fill the frame,
+// then centers the viewport and bars off the leftover. Without it kaplay pins an
+// inline width/height on the canvas, which CSS can't override, and the picture
+// stretches once the frame is narrower than 800px. It also keeps mousePos() honest
+// (kaplay maps pointer + touch coords through the letterboxed viewport).
 const K = kaplay({
   canvas: document.getElementById("game-canvas"),
   width: 800, height: 500,
+  letterbox: true,
   background: [26,26,26],
   pixelDensity: Math.min(2, window.devicePixelRatio || 1),
+  buttons: BUTTONS,
 });
 
-initAudio(K);   // registers every SFX, installs the autoplay unlock + mute key
+initAudio(K);           // registers every SFX, installs the autoplay unlock + mute key
+initTouchControls(K);   // wires the on-screen touch bar; a no-op on desktop
 
 const GAME_W=800, GAME_H=500;
 const C_TEXT=[240,230,211], C_ACCENT=[201,168,76], C_MUTED=[138,122,106], C_SURFACE=[42,42,42];
@@ -1191,9 +1214,10 @@ scene("select", () => {
   });
 
   const start = i => { sfx("menu_select"); go("game",{char:CHARACTERS[i],levelIdx:0,score:0}); };
-  onKeyPress("left",  ()=>{ selected=(selected-1+CHARACTERS.length)%CHARACTERS.length; sfx("menu_move"); });
-  onKeyPress("right", ()=>{ selected=(selected+1)%CHARACTERS.length; sfx("menu_move"); });
-  onKeyPress(["enter","space"], ()=>start(selected));
+  onButtonPress("left",  ()=>{ selected=(selected-1+CHARACTERS.length)%CHARACTERS.length; sfx("menu_move"); });
+  onButtonPress("right", ()=>{ selected=(selected+1)%CHARACTERS.length; sfx("menu_move"); });
+  // punch doubles as "confirm" so the touch bar can start a run without a card tap
+  onButtonPress(["start","punch"], ()=>start(selected));
   onClick(()=>{ const mp=mousePos(); cards.forEach((c,i)=>{ if(hovered(mp,c)) start(i); }); });
 });
 
@@ -1641,8 +1665,8 @@ scene("game", ({char:chosenChar, levelIdx=0, score:prevScore=0}={}) => {
     prevY=player.pos.y;
     shakeLevel=Math.max(0, shakeLevel - 30*d);
 
-    const goL=isKeyDown("left")||isKeyDown("a");
-    const goR=isKeyDown("right")||isKeyDown("d");
+    const goL=isButtonDown("left");
+    const goR=isButtonDown("right");
     if(goL&&!goR){ player.pos.x-=chosenChar.speed*d; facingRight=false; }
     else if(goR&&!goL){ player.pos.x+=chosenChar.speed*d; facingRight=true; }
     player.pos.x=Math.max(0,Math.min(GAME_W-PLAYER_W,player.pos.x));
@@ -1734,14 +1758,24 @@ scene("game", ({char:chosenChar, levelIdx=0, score:prevScore=0}={}) => {
     spawnTimers.forEach(ro=>{ ro.timer-=d; if(ro.timer<=0){ doSpawn(ro); ro.timer=ro.interval; } });
   });
 
-  onKeyPress(["up","w"], ()=>{ if(gameActive&&onGround){ velY=-chosenChar.jumpForce; onGround=false; sfx("jump",{vol:0.4,detune:vary(100),x:player.pos.x}); } });
-  onKeyPress("z", doPunch);
-  onKeyPress("escape", ()=>go("select"));
+  onButtonPress("jump", ()=>{ if(gameActive&&onGround){ velY=-chosenChar.jumpForce; onGround=false; sfx("jump",{vol:0.4,detune:vary(100),x:player.pos.x}); } });
+  onButtonPress("punch", doPunch);
+  onButtonPress("quit", ()=>go("select"));
 });
 
 // ============================================================
 // Transition scenes (fixed() so a residual camera shake can't drag them)
 // ============================================================
+
+// ENTER/SPACE or the punch button advance immediately. A tap anywhere on the
+// canvas also advances, but only after a beat: without the delay the same touch
+// that landed the killing blow — or that dismissed the previous card — carries
+// into this scene and skips it before the player has read a word.
+function tapToContinue(action) {
+  onButtonPress(["start","punch"], action);
+  wait(0.4, () => onClick(action));
+}
+
 scene("levelclear",({char,levelIdx=0,score=0}={})=>{
   sfx("level_clear");
   const lv=LEVELS[levelIdx], nx=LEVELS[levelIdx+1];
@@ -1752,8 +1786,8 @@ scene("levelclear",({char,levelIdx=0,score=0}={})=>{
   add([text("NEXT: "+nx.name,{size:20,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+30),anchor("center"),color(...C_ACCENT),fixed()]);
   add([text(nx.subtitle,{size:13,font:FONT}),pos(GAME_W/2,GAME_H/2+60),anchor("center"),color(...C_MUTED),fixed()]);
   add([text("PRESS ENTER TO CONTINUE",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+96),anchor("center"),color(...C_TEXT),fixed()]);
-  onKeyPress(["enter","space"],()=>go("game",{char,levelIdx:levelIdx+1,score}));
-  onKeyPress("escape",()=>go("select"));
+  tapToContinue(()=>go("game",{char,levelIdx:levelIdx+1,score}));
+  onButtonPress("quit",()=>go("select"));
 });
 
 scene("wingame",({score=0}={})=>{
@@ -1766,7 +1800,7 @@ scene("wingame",({score=0}={})=>{
   add([text(score.toString().padStart(6,"0"),{size:48,font:FONT}),pos(GAME_W/2,GAME_H/2+28),anchor("center"),color(...C_ACCENT),fixed()]);
   add([text("FINAL SCORE",{size:12,font:FONT,letterSpacing:2}),pos(GAME_W/2,GAME_H/2+72),anchor("center"),color(...C_MUTED),fixed()]);
   add([text("PRESS ENTER TO PLAY AGAIN",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+100),anchor("center"),color(...C_MUTED),fixed()]);
-  onKeyPress(["enter","space"],()=>go("select"));
+  tapToContinue(()=>go("select"));
 });
 
 scene("gameover",({score=0,levelIdx=0}={})=>{
@@ -1777,7 +1811,7 @@ scene("gameover",({score=0,levelIdx=0}={})=>{
   add([text("FELL IN "+lv.name,{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2-10),anchor("center"),color(...C_MUTED),fixed()]);
   add([text("SCORE: "+score.toString().padStart(6,"0"),{size:18,font:FONT}),pos(GAME_W/2,GAME_H/2+20),anchor("center"),color(...C_TEXT),fixed()]);
   add([text("PRESS ENTER TO TRY AGAIN",{size:14,font:FONT,letterSpacing:1}),pos(GAME_W/2,GAME_H/2+54),anchor("center"),color(...C_MUTED),fixed()]);
-  onKeyPress(["enter","space"],()=>go("select"));
+  tapToContinue(()=>go("select"));
 });
 
 go("select");

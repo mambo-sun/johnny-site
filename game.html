@@ -17,12 +17,133 @@
       color: var(--color-accent);
       margin-bottom: var(--spacing-md);
     }
+    /* The stage owns the width; the frame owns the ratio. Sizing has to live off
+       the canvas because kaplay overwrites the canvas' style attribute at init,
+       so the rules on #game-canvas below are only a pre-boot fallback. The stage
+       never spills past the column and shrinks to stay on screen on short
+       landscape phones; position:relative anchors the touch bar overlay. */
+    .game-stage {
+      position: relative;
+      width: min(800px, 100%, max(320px, calc((100vh - 200px) * 1.6)));
+      width: min(800px, 100%, max(320px, calc((100svh - 200px) * 1.6)));
+      margin: 0 auto;
+      overscroll-behavior: contain;   /* no rubber-band bounce while playing */
+    }
+    .game-frame {
+      width: 100%;
+      aspect-ratio: 8 / 5;
+    }
     #game-canvas {
       display: block;
-      margin: 0 auto;
+      width: 100%;
+      height: 100%;
       border: 2px solid var(--color-accent);
-      max-width: 100%;
-      height: auto;   /* keep 8:5 when max-width shrinks the inline 800x500 */
+      /* kaplay preventDefaults its own canvas touch events, which already stops
+         double-tap zoom; this is the belt to that pair of braces. */
+      touch-action: none;
+    }
+
+    /* ── Touch controls ──────────────────────────────────────────────────────
+       Hidden outright on desktop — touch-controls.js also attaches no listeners
+       there, so this is dead weight on a mouse machine. */
+    .touch-controls { display: none; }
+
+    @media (pointer: coarse) {
+      .touch-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--spacing-sm);
+        margin-top: var(--spacing-md);
+        /* On the container too, not just the buttons: a drag starting in the
+           gap between two buttons would otherwise scroll the page. */
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .touch-controls > div { display: flex; flex: 0 0 auto; gap: 10px; }
+
+      .touch-controls button {
+        flex: 0 0 auto;
+        font-family: var(--font-main);
+        font-size: 1.5rem;
+        line-height: 1;
+        color: var(--color-text);
+        background: var(--color-surface);
+        border: 2px solid var(--color-accent);
+        min-width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        /* Every rule below is load-bearing on iOS Safari:
+           touch-action  — kills double-tap-to-zoom AND the page scrolling out
+                           from under a thumb that drifts off a button.
+           tap-highlight — kills the grey flash on every tap.
+           callout/select— kills the long-press magnifier and text selection.
+           (user-scalable=no in the viewport meta is ignored since iOS 10, so
+           touch-action is the only lever that actually works here.) */
+        touch-action: none;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+      }
+      /* Keep the ring for keyboard focus, drop the one a tap leaves behind. */
+      .touch-controls button:focus:not(:focus-visible) { outline: none; }
+
+      /* Pressed state is driven by a JS class, not :active — on iOS :active is
+         unreliable and strands buttons lit after the finger is gone. */
+      .touch-controls button.is-on {
+        background: var(--color-accent);
+        color: var(--color-bg);
+      }
+
+      /* Words, not glyphs, for the actions: at 64px a fist or a filled circle
+         reads as "some dark shape", and the HUD is text-forward anyway. */
+      .touch-controls .tc-word {
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        font-weight: bold;
+        color: var(--color-accent);
+      }
+      .touch-controls .tc-word.is-on { color: var(--color-bg); }
+
+      .touch-controls .tc-util button {
+        min-width: 44px;
+        height: 44px;
+        font-size: 1rem;
+        border-color: var(--color-muted);
+        color: var(--color-muted);
+      }
+    }
+
+    /* A phone in landscape has ~390px of height to spend. Keeping the site
+       chrome would leave the field smaller than the buttons sitting on it, so
+       landscape goes full-bleed — the game takes the whole viewport, the way a
+       mobile game does, and the bar floats over the street. Rotate back to
+       portrait for the nav. */
+    @media (orientation: landscape) and (pointer: coarse) {
+      header, footer, .game-page h1 { display: none; }
+      .game-page { padding: 0; }
+      .game-page .container { padding: 0; max-width: none; }
+      .game-stage { width: min(100%, calc(100vh * 1.6)); }
+      .game-stage { width: min(100%, calc(100svh * 1.6)); }
+      #game-canvas { border-width: 0; }
+
+      .touch-controls {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: max(10px, env(safe-area-inset-bottom));
+        margin-top: 0;
+        padding: 0 max(10px, env(safe-area-inset-left)) 0 max(10px, env(safe-area-inset-right));
+        opacity: 0.62;
+      }
+      .touch-controls button.is-on { opacity: 1; }
+      .touch-controls .tc-util { opacity: 0.8; }
     }
   </style>
 </head>
@@ -54,7 +175,28 @@
     <section class="game-page">
       <div class="container">
         <h1>Johnny! Takes San Francisco</h1>
-        <canvas id="game-canvas"></canvas>
+        <div class="game-stage">
+          <div class="game-frame">
+            <canvas id="game-canvas"></canvas>
+          </div>
+
+          <!-- Revealed by touch-controls.js only on a coarse pointer. Each
+               data-btn maps to a virtual button name declared in game.js. -->
+          <div class="touch-controls" id="touch-controls" hidden>
+            <div class="tc-move">
+              <button type="button" data-btn="left"  aria-label="Move left">&#9664;</button>
+              <button type="button" data-btn="right" aria-label="Move right">&#9654;</button>
+            </div>
+            <div class="tc-util">
+              <button type="button" data-act="mute" aria-pressed="false" aria-label="Mute">&#128266;</button>
+              <button type="button" data-act="quit" aria-label="Quit to character select">&#10005;</button>
+            </div>
+            <div class="tc-act">
+              <button type="button" class="tc-word" data-btn="jump"  aria-label="Jump">JUMP</button>
+              <button type="button" class="tc-word" data-btn="punch" aria-label="Punch">HIT</button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -67,7 +209,8 @@
 
   <script src="https://unpkg.com/kaplay@3001/dist/kaplay.js"></script>
   <script src="js/audio.js?v=1"></script>
-  <script src="js/game.js?v=7"></script>
+  <script src="js/touch-controls.js?v=1"></script>
+  <script src="js/game.js?v=9"></script>
   <script src="js/nav.js"></script>
 </body>
 </html>
