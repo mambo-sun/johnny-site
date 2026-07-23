@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnny — Photos/Videos</title>
+
+    <!-- Note: Hierarchy matters for css -->
+    <!-- Shared page first, then page specific -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/media.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+
+                <!-- Toggle button: a sibling of the <ul>, inside the same container.
+                CSS will hide it on desktop and reveal it on mobile.
+                aria-* attributes tell screen readers what it does and its state. -->
+                <button
+                    class="nav-toggle"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded="false"
+                    aria-controls="primary-nav">
+                    &#9776; <!-- ☰ hamburger icon (Unicode U+2630), no image needed -->
+                </button>
+
+                <ul class="nav-links" id="primary-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="media.html" aria-current="page">Photos/Videos</a></li>
+                    <li><a href="shows.html">Shows</a></li>
+                    <li><a href="game.html">Game</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="media-page">
+        <div class="container">
+            <h1>Johnny's Top 10 Tunage</h1>
+
+            <!-- One song row. This entire block repeats for each of the 10 songs. -->
+
+            <!-- song #1 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#1</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="uUzxhsVdQ8U"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/uUzxhsVdQ8U/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">She Does It Right <span class="artist-song-sep">—</span> Dr. Feelgood</h2>
+                    <p class="song-desc">Amphetamine fueled UK protopunk masterpiece!</p>
+                </div>
+            </article>
+            
+            <!-- song #2 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#2</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="bQJ0R57k7HQ"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/bQJ0R57k7HQ/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Do Anything You Wanna Do <span class="artist-song-sep">—</span> Eddie & The Hotrods</h2>
+                    <p class="song-desc">Tough as nails but also melodic.</p>
+                </div>
+            </article>
+
+            <!-- song #3 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#3</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="KSiUb2VCGMo"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/KSiUb2VCGMo/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Starry Eyes <span class="artist-song-sep">—</span> The Records</h2>
+                    <p class="song-desc">One of the catchiest tunes we know. Perfect for a breakup.</p>
+                </div>
+            </article>
+            
+            <!-- song #4 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#4</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="XOdafwtcmgc"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/XOdafwtcmgc/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Crazy Kids <span class="artist-song-sep">—</span> Trevor White</h2>
+                    <p class="song-desc">Trevor White from Jook shreads here. Ultimate teenage lament.</p>
+                </div>
+            </article>
+            
+            <!-- song #5 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#5</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="OgaBbpXWvlc"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/OgaBbpXWvlc/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Softly, Softly <span class="artist-song-sep">—</span> The Equals</h2>
+                    <p class="song-desc">These cats have so many bangers its sickening. Johnny TL backs up Derv these days.</p>
+                </div>
+            </article>
+
+            <!-- song #6 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#6</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="Rk_sAHh9s08"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/Rk_sAHh9s08/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Return To Innocence <span class="artist-song-sep">—</span> Enigma</h2>
+                    <p class="song-desc">No explanation needed here.</p>
+                </div>
+            </article>
+            
+            <!-- song #7 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#7</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="l24DFbedbJ0"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/l24DFbedbJ0/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Looking For The Magic <span class="artist-song-sep">—</span> Dwight Twilley</h2>
+                    <p class="song-desc">This song never gets old.</p>
+                </div>
+            </article>
+            
+            <!-- song #8 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#8</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="6OpnRuooGfw"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/6OpnRuooGfw/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">I Wanna Be Your Lover <span class="artist-song-sep">—</span> La Bionda</h2>
+                    <p class="song-desc">This is what we actually listen to in our spare time.</p>
+                </div>
+            </article>
+            
+            <!-- song #9 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#9</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="CLIM30YGctw"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/CLIM30YGctw/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Reel Ten <span class="artist-song-sep">—</span> The Plugz</h2>
+                    <p class="song-desc">Morricone Surf Punk Meltdown.</p>
+                </div>
+            </article>
+            
+            <!-- song #10 -->
+            <article class="song-row">
+
+                <!-- Rank badge. Gets its own narrow grid column on the left. -->
+                <div class="rank">#10</div>
+
+                <!-- Video facade: a lightweight placeholder, NOT an iframe yet.
+                    JS reads data-video-id on click and swaps in the real player. -->
+                <button class="video-facade"
+                        type="button"
+                        data-video-id="pRlRFUCTBIQ"
+                        aria-label="Play Song Title by Artist">
+
+                    <!-- Thumbnail served by YouTube from the same video ID. alt is empty
+                        because the button's aria-label already names the video. -->    
+                    <img class="thumb"
+                         src="https://img.youtube.com/vi/pRlRFUCTBIQ/hqdefault.jpg"
+                         alt=""
+                         width="480"
+                         height="360"
+                         loading="lazy">
+                    <!-- Decorative play triangle, hidden from screen readers. -->     
+                    <span class="play-icon" aria-hidden="true">&#9654;</span>
+                </button>
+
+                <!-- Groups title and description so the grid treats them as one column. -->
+                <div class="song-text">
+                    <h2 class="song-title">Freakazoid <span class="artist-song-sep">—</span> Midnight Star</h2>
+                    <p class="song-desc">This is wild!</p>
+                </div>
+            </article> 
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Johnny. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/nav.js"></script>
+    <script src="js/media.js"></script>
+</body>
+</html>

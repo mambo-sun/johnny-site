@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html land="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,19 +8,30 @@
     <link rel="stylesheet" href="css/calendar.css" />       <!-- new: calendar-only styles -->
 </head>
 <body>
-    <!-- Same nav as the rest of the site, with Shows marked active -->
     <header>
-            <nav>
-                <div class="container">
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="media.html">Photos/Videos</a></li>
-                        <li><a href="shows.html">Shows</a></li>
-                        <li><a href="game.html">Game</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+        <nav>
+            <div class="container">
+
+                <!-- Toggle button: a sibling of the <ul>, inside the same container.
+                    CSS will hide it on desktop and reveal it on mobile.
+                    aria-* attributes tell screen readers what it does and its state. -->
+                <button
+                    class="nav-toggle"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded="false"
+                    aria-controls="primary-nav">
+                    &#9776; <!-- ☰ hamburger icon (Unicode U+2630), no image needed -->
+                </button>
+
+                <ul class="nav-links" id="primary-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="media.html">Photos/Videos</a></li>
+                    <li><a href="shows.html" aria-current="page">Shows</a></li>
+                    <li><a href="game.html">Game</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
     <main class="calendar-page">
         <!-- Month + year, e.g. "FEBRUARY 2026". JS writes into this. -->
@@ -51,5 +62,6 @@
     </div>
 
     <script src="js/calendar.js"></script>
+    <script src="js/nav.js"></script>
 </body>
 </html>

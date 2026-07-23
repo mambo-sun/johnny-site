@@ -30,11 +30,21 @@
   <header>
     <nav>
       <div class="container">
-        <ul>
+        <!-- Toggle button: a sibling of the <ul>, inside the same container.
+          CSS will hide it on desktop and reveal it on mobile.
+          aria-* attributes tell screen readers what it does and its state. -->
+          <button
+              class="nav-toggle"
+              aria-label="Toggle navigation menu"
+              aria-expanded="false"
+              aria-controls="primary-nav">
+              &#9776; <!-- ☰ hamburger icon (Unicode U+2630), no image needed -->
+          </button>
+        <ul class="nav-links" id="primary-nav">
           <li><a href="index.html">Home</a></li>
           <li><a href="media.html">Photos/Videos</a></li>
           <li><a href="shows.html">Shows</a></li>
-          <li><a href="game.html">A Game</a></li>
+          <li><a href="game.html" aria-current="page">Game</a></li>
         </ul>
       </div>
     </nav>
@@ -58,5 +68,6 @@
   <script src="https://unpkg.com/kaplay@3001/dist/kaplay.js"></script>
   <script src="js/audio.js?v=1"></script>
   <script src="js/game.js?v=7"></script>
+  <script src="js/nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,169 @@
+.media-page {
+    /* Vertical padding only. Horizontal width and centering come from
+       .container in style.css — do not duplicate them here. */
+    padding: var(--spacing-lg) 0 var(--spacing-xl);
+}
+
+.media-page h1 {
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-lg);
+}
+
+.video-facade {
+    /* strip the browser's default button chrome */
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;   /* controls do not inherit font by default */
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+/* display: grid on a parent turns
+its direct children into grid items and places
+them into tracks you define. */
+.song-row {
+    display: grid;
+
+    /* Three tracks, matching the three children in source order.
+       auto            = rank column shrinks to fit its content
+       minmax(0, 1fr)  = video column, takes 1 share of leftover space
+       minmax(0, 1.2fr)= text column, takes 1.2 shares */
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.2fr);
+
+    /* Space between tracks. Applies between columns AND rows,
+       so it never adds space at the outer edges. */
+    gap: var(--spacing-lg);
+
+    /* Default is "stretch", which forces every item to the height of the
+       tallest one. "start" lets each item keep its natural height and sit
+       at the top of the row, so a short description doesn't get stretched. */
+    align-items: start;
+
+    /* Vertical separation between one song row and the next. */
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Keeps the rank column a consistent width so the video column starts at the
+   same x-position on every row. Without this, "#1" and "#10" size differently
+   and the rows would be visibly misaligned. */
+.rank {
+    min-width: 3.5rem;      /* consistent column width from #1 through #10 */
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;         /* stops the tall line box from pushing it down */
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+}
+
+/* - - - - Video facade - - - - */
+.video-facade {
+
+}
+
+.thumb {
+    /* Images are inline by default, which reserves space below them for text
+       descenders — the classic mystery 4px gap under an image. */
+    display: block;
+
+    /* Size to the container, not to the file's intrinsic 480px.
+       This is what stops the overlap. */
+    width: 100%;
+    height: auto;
+
+    /* Force a 16:9 box regardless of the source image's 4:3 shape. */
+    aspect-ratio: 16 / 9;
+
+    /* cover  = fill the box, cropping whatever does not fit (removes the bars)
+       contain = fit the whole image inside, leaving empty space (keeps them) */
+    object-fit: cover;
+    border: 2px solid var(--color-accent);
+}
+
+.song-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+
+    /* Your reset zeroes margin on every element, so headings have none by
+       default. This has to be stated explicitly. */
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Mutes the dash so the song and artist read as the emphasis. */
+.artist-song-sep {
+    color: var(--color-muted);
+    margin: 0 0.25rem;
+}
+
+/* - - - - Description - - - - */
+.song-desc {
+    color: var(--color-muted);
+
+    /* Caps line length for readability. 1ch = the width of the "0" character
+       in the current font, so this is roughly 60 characters per line.
+       Typographic guidance puts comfortable measure at 45-75 characters. */
+    max-width: 60ch;
+}
+
+/* - - - - Play icon overlay - - - - */
+.play-icon {
+    position: absolute;
+
+    /* 50% of the BUTTON's width and height. */
+    top: 50%;
+    left: 50%;
+
+    /* -50% of the ICON's own width and height. */
+    transform: translate(-50%, -50%);
+
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--color-accent);
+
+    /* The icon sits over the image, so clicks would land on the span.
+       This makes it transparent to pointer events, passing clicks through
+       to the button underneath. */
+    pointer-events: none;
+}
+
+/* The iframe that replaces the facade. Matches the thumbnail's dimensions
+   so the row does not change height during the swap. */
+.video-frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    /* Iframes carry a default border in some browsers — set it explicitly
+       rather than relying on the default being absent. */
+    border: 2px solid var(--color-accent);
+}
+
+/* - - - - Mobile: collapse to one column - - - - */
+/* 768px matches the nav breakpoint in style.css, so the whole page
+   switches to its mobile layout at a single width. */
+@media (max-width: 768px) {
+
+    .song-row {
+        /* One track. All three children stack in source order:
+           rank, then video, then text. */
+        grid-template-columns: 1fr;
+
+        /* With items stacked, this gap now applies between rows
+           rather than between columns. */
+        gap: var(--spacing-md);
+
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .rank {
+        min-width: 0;       /* reserved column width is meaningless now */
+        font-size: 1.5rem;
+    }
+}

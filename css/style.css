@@ -88,6 +88,11 @@ nav ul li a:hover {
     border-bottom: 1px solid var(--color-accent);
 }
 
+nav ul li a[aria-current="page"] {
+    color: war(--color-accent);
+    border-bottom: 1px solid var(--color-accent);
+}
+
 /* ===================================
    Hero
    =================================== */
