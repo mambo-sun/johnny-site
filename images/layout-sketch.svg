@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 900 730">
+  <!-- Generator: Adobe Illustrator 30.6.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 109)  -->
+  <defs>
+    <style>
+      .st0, .st1, .st2 {
+        fill: #2a2a2a;
+      }
+
+      .st0, .st3, .st4, .st5, .st6, .st7, .st8 {
+        stroke: #c9a84c;
+      }
+
+      .st9 {
+        font-size: 24px;
+        letter-spacing: .1em;
+      }
+
+      .st9, .st10, .st11, .st12, .st13, .st14, .st15, .st16, .st17, .st18, .st19, .st20, .st21 {
+        isolation: isolate;
+      }
+
+      .st9, .st11, .st12, .st14, .st16, .st18, .st22, .st20, .st23 {
+        fill: #c9a84c;
+      }
+
+      .st9, .st11, .st12, .st22 {
+        font-family: CourierNewPS-BoldMT, 'Courier New';
+        font-weight: 700;
+      }
+
+      .st10 {
+        font-size: 6px;
+      }
+
+      .st10, .st24, .st13, .st15, .st17, .st19, .st21 {
+        fill: #8a7a6a;
+      }
+
+      .st10, .st13, .st14, .st15, .st16, .st17, .st18, .st19, .st20, .st21 {
+        font-family: CourierNewPSMT, 'Courier New';
+      }
+
+      .st11, .st18, .st22, .st19 {
+        font-size: 12px;
+      }
+
+      .st1 {
+        stroke: #8a7a6a;
+      }
+
+      .st1, .st3, .st4, .st8 {
+        stroke-width: .5px;
+      }
+
+      .st3 {
+        fill: #241d12;
+      }
+
+      .st4 {
+        fill: #141414;
+      }
+
+      .st12 {
+        font-size: 18px;
+      }
+
+      .st13, .st16 {
+        font-size: 9px;
+      }
+
+      .st14, .st17 {
+        font-size: 8px;
+      }
+
+      .st5, .st6 {
+        fill: none;
+      }
+
+      .st5, .st7 {
+        stroke-width: 2px;
+      }
+
+      .st15 {
+        font-size: 10px;
+      }
+
+      .st7, .st25 {
+        fill: #1a1a1a;
+      }
+
+      .st26 {
+        fill: #f0e6d3;
+      }
+
+      .st20 {
+        font-size: 11px;
+      }
+
+      .st8 {
+        fill: #121212;
+      }
+
+      .st21 {
+        font-size: 7px;
+      }
+    </style>
+  </defs>
+  <rect class="st25" width="900" height="730"/>
+  <text class="st9" transform="translate(189 40)"><tspan x="0" y="0">JOHNNY! THE BAND — SITE LAYOUT</tspan></text>
+  <text class="st19" transform="translate(291.6 62)"><tspan x="0" y="0">four pages, one shared header and stylesheet</tspan></text>
+  <rect class="st5" x="40" y="80" width="390" height="290"/>
+  <text class="st11" transform="translate(52 102)"><tspan x="0" y="0">index.html — HOME</tspan></text>
+  <rect class="st1" x="52" y="112" width="366" height="18"/>
+  <text class="st13" transform="translate(140.5 125)"><tspan x="0" y="0">HOME / PHOTOS+VIDEOS / SHOWS / GAME</tspan></text>
+  <rect class="st6" x="145" y="140" width="180" height="26"/>
+  <text class="st20" transform="translate(221.8 157)"><tspan x="0" y="0">LOGO</tspan></text>
+  <rect class="st24" x="195" y="172" width="80" height="5"/>
+  <rect class="st6" x="175" y="185" width="80" height="15"/>
+  <text class="st14" transform="translate(193.4 196)"><tspan x="0" y="0">SHOWS BTN</tspan></text>
+  <rect class="st0" x="170" y="208" width="90" height="34"/>
+  <text class="st17" transform="translate(193.4 228)"><tspan x="0" y="0">ALBUM ART</tspan></text>
+  <rect class="st1" x="60" y="252" width="56" height="32"/>
+  <text class="st21" transform="translate(77.5 271)"><tspan x="0" y="0">PHOTO</tspan></text>
+  <rect class="st26" x="126" y="256" width="110" height="5"/>
+  <rect class="st24" x="126" y="266" width="70" height="4"/>
+  <rect class="st24" x="126" y="275" width="130" height="4"/>
+  <rect class="st1" x="60" y="292" width="56" height="32"/>
+  <text class="st21" transform="translate(77.5 311)"><tspan x="0" y="0">PHOTO</tspan></text>
+  <rect class="st26" x="126" y="296" width="110" height="5"/>
+  <rect class="st24" x="126" y="306" width="70" height="4"/>
+  <rect class="st24" x="126" y="315" width="130" height="4"/>
+  <rect class="st0" x="52" y="332" width="366" height="20"/>
+  <text class="st16" transform="translate(167.5 346)"><tspan x="0" y="0">MAILING LIST SIGNUP → API</tspan></text>
+  <rect class="st5" x="470" y="80" width="390" height="290"/>
+  <text class="st11" transform="translate(482 102)"><tspan x="0" y="0">media.html — PHOTOS / VIDEOS</tspan></text>
+  <rect class="st1" x="482" y="112" width="366" height="18"/>
+  <rect class="st23" x="615" y="140" width="100" height="8"/>
+  <text class="st12" transform="translate(490 180)"><tspan x="0" y="0">#1</tspan></text>
+  <rect class="st0" x="522" y="158" width="140" height="80"/>
+  <rect class="st26" x="676" y="162" width="150" height="7"/>
+  <rect class="st24" x="676" y="178" width="160" height="4"/>
+  <rect class="st24" x="676" y="188" width="140" height="4"/>
+  <rect class="st24" x="676" y="198" width="155" height="4"/>
+  <text class="st12" transform="translate(490 272)"><tspan x="0" y="0">#2</tspan></text>
+  <rect class="st0" x="522" y="250" width="140" height="80"/>
+  <rect class="st26" x="676" y="254" width="150" height="7"/>
+  <rect class="st24" x="676" y="270" width="160" height="4"/>
+  <rect class="st24" x="676" y="280" width="140" height="4"/>
+  <rect class="st24" x="676" y="290" width="155" height="4"/>
+  <text class="st19" transform="translate(603.8 352)"><tspan x="0" y="0">· · · through #10</tspan></text>
+  <rect class="st5" x="40" y="400" width="390" height="290"/>
+  <text class="st11" transform="translate(52 422)"><tspan x="0" y="0">shows.html — SHOWS CALENDAR</tspan></text>
+  <rect class="st1" x="52" y="432" width="366" height="18"/>
+  <rect class="st23" x="180" y="462" width="110" height="10"/>
+  <rect class="st2" x="54" y="482" width="50" height="12"/>
+  <rect class="st2" x="106" y="482" width="50" height="12"/>
+  <rect class="st2" x="158" y="482" width="50" height="12"/>
+  <rect class="st2" x="210" y="482" width="50" height="12"/>
+  <rect class="st2" x="262" y="482" width="50" height="12"/>
+  <rect class="st2" x="314" y="482" width="50" height="12"/>
+  <rect class="st2" x="366" y="482" width="50" height="12"/>
+  <text class="st21" transform="translate(72.7 490)"><tspan x="0" y="0">SUN</tspan></text>
+  <text class="st21" transform="translate(124.7 490)"><tspan x="0" y="0">MON</tspan></text>
+  <text class="st21" transform="translate(176.7 490)"><tspan x="0" y="0">TUE</tspan></text>
+  <text class="st21" transform="translate(228.6 490)"><tspan x="0" y="0">WED</tspan></text>
+  <text class="st21" transform="translate(280.6 490)"><tspan x="0" y="0">THU</tspan></text>
+  <text class="st21" transform="translate(332.5 490)"><tspan x="0" y="0">FRI</tspan></text>
+  <text class="st21" transform="translate(384.5 490)"><tspan x="0" y="0">SAT</tspan></text>
+  <g>
+    <rect class="st8" x="54" y="500" width="50" height="28"/>
+    <rect class="st8" x="106" y="500" width="50" height="28"/>
+    <rect class="st4" x="158" y="500" width="50" height="28"/>
+    <rect class="st4" x="210" y="500" width="50" height="28"/>
+    <rect class="st4" x="262" y="500" width="50" height="28"/>
+    <rect class="st4" x="314" y="500" width="50" height="28"/>
+    <rect class="st4" x="366" y="500" width="50" height="28"/>
+    <rect class="st4" x="54" y="530" width="50" height="28"/>
+    <rect class="st4" x="106" y="530" width="50" height="28"/>
+    <rect class="st4" x="158" y="530" width="50" height="28"/>
+    <rect class="st4" x="210" y="530" width="50" height="28"/>
+    <rect class="st4" x="262" y="530" width="50" height="28"/>
+    <rect class="st4" x="314" y="530" width="50" height="28"/>
+    <rect class="st3" x="366" y="530" width="50" height="28"/>
+    <rect class="st4" x="54" y="560" width="50" height="28"/>
+    <rect class="st4" x="106" y="560" width="50" height="28"/>
+    <rect class="st4" x="158" y="560" width="50" height="28"/>
+    <rect class="st4" x="210" y="560" width="50" height="28"/>
+    <rect class="st4" x="262" y="560" width="50" height="28"/>
+    <rect class="st4" x="314" y="560" width="50" height="28"/>
+    <rect class="st3" x="366" y="560" width="50" height="28"/>
+    <rect class="st4" x="54" y="590" width="50" height="28"/>
+    <rect class="st4" x="106" y="590" width="50" height="28"/>
+    <rect class="st4" x="158" y="590" width="50" height="28"/>
+    <rect class="st4" x="210" y="590" width="50" height="28"/>
+    <rect class="st4" x="262" y="590" width="50" height="28"/>
+    <rect class="st4" x="314" y="590" width="50" height="28"/>
+    <rect class="st4" x="366" y="590" width="50" height="28"/>
+    <rect class="st4" x="54" y="620" width="50" height="28"/>
+    <rect class="st4" x="106" y="620" width="50" height="28"/>
+    <rect class="st4" x="158" y="620" width="50" height="28"/>
+    <rect class="st4" x="210" y="620" width="50" height="28"/>
+    <rect class="st8" x="262" y="620" width="50" height="28"/>
+    <rect class="st8" x="314" y="620" width="50" height="28"/>
+    <rect class="st8" x="366" y="620" width="50" height="28"/>
+  </g>
+  <rect class="st23" x="368" y="534" width="30" height="8"/>
+  <rect class="st23" x="368" y="564" width="30" height="8"/>
+  <text class="st10" transform="translate(383.8 556)"><tspan x="0" y="0">CITY</tspan></text>
+  <text class="st10" transform="translate(383.8 586)"><tspan x="0" y="0">CITY</tspan></text>
+  <rect class="st6" x="172" y="658" width="30" height="20"/>
+  <text class="st18" transform="translate(183.4 672)"><tspan x="0" y="0">‹</tspan></text>
+  <rect class="st6" x="222" y="658" width="30" height="20"/>
+  <text class="st18" transform="translate(233.4 672)"><tspan x="0" y="0">›</tspan></text>
+  <text class="st17" transform="translate(300.8 672)"><tspan x="0" y="0">gold cell = show → modal</tspan></text>
+  <rect class="st5" x="470" y="400" width="390" height="290"/>
+  <text class="st11" transform="translate(482 422)"><tspan x="0" y="0">game.html — THE GAME</tspan></text>
+  <rect class="st1" x="482" y="432" width="366" height="18"/>
+  <rect class="st23" x="605" y="460" width="120" height="8"/>
+  <rect class="st7" x="522" y="478" width="286" height="172"/>
+  <rect class="st2" x="532" y="490" width="60" height="8"/>
+  <rect class="st2" x="740" y="490" width="58" height="8"/>
+  <rect class="st1" x="560" y="540" width="34" height="76"/>
+  <rect class="st1" x="600" y="558" width="34" height="58"/>
+  <rect class="st1" x="700" y="524" width="34" height="92"/>
+  <rect class="st23" x="566" y="546" width="8" height="8"/>
+  <rect class="st23" x="580" y="546" width="8" height="8"/>
+  <rect class="st23" x="706" y="530" width="8" height="8"/>
+  <rect class="st23" x="720" y="530" width="8" height="8"/>
+  <rect class="st26" x="655" y="586" width="12" height="30"/>
+  <rect class="st23" x="655" y="578" width="12" height="8"/>
+  <rect class="st2" x="522" y="616" width="286" height="34"/>
+  <text class="st17" transform="translate(600.2 638)"><tspan x="0" y="0">SAN FRANCISCO · DESTROY 80%</tspan></text>
+  <rect class="st0" x="490" y="658" width="24" height="20"/>
+  <rect class="st0" x="518" y="658" width="24" height="20"/>
+  <rect class="st0" x="760" y="658" width="40" height="20"/>
+  <text class="st14" transform="translate(770.4 672)"><tspan x="0" y="0">JUMP</tspan></text>
+  <rect class="st0" x="806" y="658" width="40" height="20"/>
+  <text class="st14" transform="translate(818.8 672)"><tspan x="0" y="0">HIT</tspan></text>
+  <text class="st17" transform="translate(597.8 672)"><tspan x="0" y="0">touch controls (mobile only)</tspan></text>
+  <text class="st15" transform="translate(153 715)"><tspan x="0" y="0">Shared across all pages: sticky header, hamburger nav below 768px, and one set of CSS design tokens</tspan></text>
+  <text class="st22" transform="translate(536.3 198)"><tspan x="0" y="0">embeded youtube</tspan><tspan x="0" y="14.4">video</tspan></text>
+  <text class="st22" transform="translate(536.3 294)"><tspan x="0" y="0">embeded youtube</tspan><tspan x="0" y="14.4">video</tspan></text>
+  <text class="st18" transform="translate(505.6 666.2) rotate(-180)"><tspan x="0" y="0">›</tspan></text>
+  <text class="st18" transform="translate(526.4 672)"><tspan x="0" y="0">›</tspan></text>
+</svg>
